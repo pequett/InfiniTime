@@ -47,11 +47,11 @@ WatchFaceTerminal::WatchFaceTerminal(DisplayApp* app,
 
   label_prompt_1 = lv_label_create(lv_scr_act(), nullptr);
   lv_obj_align(label_prompt_1, lv_scr_act(), LV_ALIGN_IN_LEFT_MID, 0, -80);
-  lv_label_set_text_static(label_prompt_1, "peq@pine:~ $ now\n");
+  lv_label_set_text_static(label_prompt_1, "peq@pine:~ $ now");
 
   label_prompt_2 = lv_label_create(lv_scr_act(), nullptr);
   lv_obj_align(label_prompt_2, lv_scr_act(), LV_ALIGN_IN_LEFT_MID, 0, 60);
-  lv_label_set_text_static(label_prompt_2, "\npeq@pine:~ $");
+  lv_label_set_text_static(label_prompt_2, "peq@pine:~ $");
 
   label_time = lv_label_create(lv_scr_act(), nullptr);
   lv_label_set_recolor(label_time, true);
@@ -78,7 +78,7 @@ void WatchFaceTerminal::Refresh() {
   powerPresent = batteryController.IsPowerPresent();
   batteryPercentRemaining = batteryController.PercentRemaining();
   if (batteryPercentRemaining.IsUpdated() || powerPresent.IsUpdated()) {
-    lv_label_set_text_fmt(batteryValue, "[#FCF9F2 POWR#]#FCF9F2 %d%%", batteryPercentRemaining.Get());
+    lv_label_set_text_fmt(batteryValue, "[#fae442 POWR#]#fae442 %d%%", batteryPercentRemaining.Get());
     if (batteryController.IsPowerPresent()) {
       lv_label_ins_text(batteryValue, LV_LABEL_POS_LAST, " Charging");
     }
@@ -88,12 +88,12 @@ void WatchFaceTerminal::Refresh() {
   bleRadioEnabled = bleController.IsRadioEnabled();
   if (bleState.IsUpdated() || bleRadioEnabled.IsUpdated()) {
     if (!bleRadioEnabled.Get()) {
-      lv_label_set_text_static(connectState, "[#D7CFF6 PIXL#]#D7CFF6 Be Here Now#");
+      lv_label_set_text_static(connectState, "[#9c4f96 PIXL#]#9c4f96 Be Here Now#");
     } else {
       if (bleState.Get()) {
-        lv_label_set_text_static(connectState, "[#D7CFF6 PIXL#]#D7CFF6 Why Tho?#");
+        lv_label_set_text_static(connectState, "[#9c4f96 PIXL#]#9c4f96 Why Tho?#");
       } else {
-        lv_label_set_text_static(connectState, "[#D7CFF6 PIXL#]#D7CFF6 Disconnected#");
+        lv_label_set_text_static(connectState, "[#9c4f96 PIXL#]#9c4f96 Disconnected#");
       }
     }
   }
@@ -140,14 +140,14 @@ void WatchFaceTerminal::Refresh() {
           hour = hour - 12;
           ampmChar[0] = 'P';
         }
-        lv_label_set_text_fmt(label_time, "[#F5D0DC TIME#]#F5D0DC %02d:%02d:%02d %s#", hour, minute, second, ampmChar);
+        lv_label_set_text_fmt(label_time, "[#ff6355 TIME#]#ff6355 %02d:%02d:%02d %s#", hour, minute, second, ampmChar);
       } else {
-        lv_label_set_text_fmt(label_time, "[#F5D0DC TIME#]#F5D0DC %02d:%02d:%02d", hour, minute, second);
+        lv_label_set_text_fmt(label_time, "[#ff6355 TIME#]#ff6355 %02d:%02d:%02d", hour, minute, second);
       }
     }
 
     if ((year != currentYear) || (month != currentMonth) || (dayOfWeek != currentDayOfWeek) || (day != currentDay)) {
-      lv_label_set_text_fmt(label_date, "[#F8E2DF DATE#]#F8E2DF %02d-%02d-%04d#", char(month), char(day), short(year));
+      lv_label_set_text_fmt(label_date, "[#fba949 DATE#]#fba949 %02d-%02d-%04d#", char(month), char(day), short(year));
 
       currentYear = year;
       currentMonth = month;
@@ -160,15 +160,15 @@ void WatchFaceTerminal::Refresh() {
   heartbeatRunning = heartRateController.State() != Controllers::HeartRateController::States::Stopped;
   if (heartbeat.IsUpdated() || heartbeatRunning.IsUpdated()) {
     if (heartbeatRunning.Get()) {
-      lv_label_set_text_fmt(heartbeatValue, "[#D8DDFE HP<3#]#D8DDFE %d bpm#", heartbeat.Get());
+      lv_label_set_text_fmt(heartbeatValue, "[#2aa8f2 HP<3#]#2aa8f2 %d bpm#", heartbeat.Get());
     } else {
-      lv_label_set_text_static(heartbeatValue, "[#D8DDFE HP<3#]#D8DDFE DEAD#");
+      lv_label_set_text_static(heartbeatValue, "[#2aa8f2 HP<3#]#2aa8f2 DEAD#");
     }
   }
 
   stepCount = motionController.NbSteps();
   motionSensorOk = motionController.IsSensorOk();
   if (stepCount.IsUpdated() || motionSensorOk.IsUpdated()) {
-    lv_label_set_text_fmt(stepValue, "[#E6F0F0 WALK#]#E6F0F0 %lu steps#", stepCount.Get());
+    lv_label_set_text_fmt(stepValue, "[#8bd448 WALK#]#8bd448 %lu steps#", stepCount.Get());
   }
 }
